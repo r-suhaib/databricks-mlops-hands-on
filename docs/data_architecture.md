@@ -16,9 +16,10 @@ Store raw immutable datasets.
 
 Candidate Tables:
 
-- raw_sensor_telemetry
-- raw_fault_events
-- raw_dataset_metadata
+- faultfree_training
+- faultfree_testing
+- faulty_training
+- faulty_testing
 
 ---
 
