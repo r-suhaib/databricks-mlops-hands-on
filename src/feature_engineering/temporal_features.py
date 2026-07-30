@@ -1,6 +1,9 @@
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
+from src.feature_engineering.validations import (
+    validate_temporal_feature_inputs
+)
 
 
 def create_temporal_features(df: DataFrame) -> DataFrame:
