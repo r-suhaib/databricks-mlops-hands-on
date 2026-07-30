@@ -1,7 +1,7 @@
 from pyspark.ml.feature import VectorAssembler
-from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.classification import RandomForestClassifier
 
-# preparing training data
+
 def prepare_training_data(df):
 
     feature_columns = [
@@ -18,17 +18,28 @@ def prepare_training_data(df):
         outputCol="features"
     )
 
-    return assembler.transform(df)
+    transformed_df = assembler.transform(df)
 
-# applying a baseline dummy logistic regression model; no sophisicated modelling for this mlops implementation
-def train_model(df):
-
-    lr = LogisticRegression(
-        labelCol="faultNumber",
-        featuresCol="features",
-        maxIter=5
+    transformed_df = transformed_df.select(
+        "faultNumber",
+        "features"
     )
 
-    model = lr.fit(df)
+    transformed_df = transformed_df.na.drop()
+
+    return transformed_df
+
+
+def train_model(df):
+
+    rf = RandomForestClassifier(
+        labelCol="faultNumber",
+        featuresCol="features",
+        numTrees=20,
+        maxDepth=5,
+        seed=42
+    )
+
+    model = rf.fit(df)
 
     return model

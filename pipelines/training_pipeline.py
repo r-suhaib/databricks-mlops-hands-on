@@ -1,51 +1,68 @@
 import mlflow
 
-# import classifier model
 from src.training.train_fault_classifier import (
     prepare_training_data,
     train_model
 )
 
-# utilised served table for training not calculated
-source_df = spark.table(
+SOURCE_TABLE = (
     "tep_anomaly.served.training_base"
 )
 
-# apply tranformation
+source_df = spark.table(
+    SOURCE_TABLE
+)
+
+row_count = source_df.count()
+
 prepared_df = prepare_training_data(
     source_df
 )
 
-# log trainig with MLflow
-with mlflow.start_run():
+with mlflow.start_run(
+    run_name="rf_baseline_fault_classifier"
+):
 
     mlflow.log_param(
         "source_table",
-        "tep_anomaly.served.training_base"
+        SOURCE_TABLE
     )
 
-    model = train_model(
-        prepared_df
+    mlflow.log_param(
+        "catalog",
+        "tep_anomaly"
+    )
+
+    mlflow.log_param(
+        "source_schema",
+        "served"
     )
 
     mlflow.log_param(
         "algorithm",
-        "logistic_regression"
+        "RandomForestClassifier"
     )
 
     mlflow.log_param(
-    "catalog",
-    "tep_anomaly"
+        "numTrees",
+        20
     )
 
     mlflow.log_param(
-    "source_schema",
-    "served"
+        "maxDepth",
+        5
     )
 
-    row_count = source_df.count()
+    mlflow.log_param(
+        "seed",
+        42
+    )
 
     mlflow.log_metric(
-    "training_rows",
-    row_count
+        "training_rows",
+        row_count
+    )
+
+    model = train_model(
+        prepared_df
     )
