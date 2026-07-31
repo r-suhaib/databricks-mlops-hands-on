@@ -9,6 +9,10 @@ from src.training.train_fault_classifier import (
     feature_columns
 )
 
+from src.utils.delta_utils import (
+    get_latest_delta_version
+)
+
 SOURCE_TABLE = (
     "tep_anomaly.served.training_base"
 )
@@ -20,6 +24,13 @@ MLFLOW_TMP_DIR = (
 source_df = spark.table(
         SOURCE_TABLE
     )
+
+delta_version = (
+    get_latest_delta_version(
+        spark,
+        SOURCE_TABLE
+    )
+)
 
 row_count = source_df.count()
 
@@ -39,6 +50,11 @@ with mlflow.start_run(
     mlflow.log_param(
         "source_table",
         SOURCE_TABLE
+    )
+
+    mlflow.log_param(
+        "delta_version",
+        delta_version
     )
 
     mlflow.log_param(
