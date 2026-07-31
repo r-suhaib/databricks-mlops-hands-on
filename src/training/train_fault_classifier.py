@@ -15,7 +15,8 @@ def prepare_training_data(df):
 
     assembler = VectorAssembler(
         inputCols=feature_columns,
-        outputCol="features"
+        outputCol="features",
+        handleInvalid="skip"
     )
 
     transformed_df = assembler.transform(df)
