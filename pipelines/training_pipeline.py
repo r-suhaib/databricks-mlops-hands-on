@@ -9,8 +9,11 @@ SOURCE_TABLE = (
     "tep_anomaly.served.training_base"
 )
 
-source_df = spark.table(
-    SOURCE_TABLE
+source_df = (
+    spark.table(
+        SOURCE_TABLE
+    )
+    .sample(0.01, seed=42)
 )
 
 row_count = source_df.count()
