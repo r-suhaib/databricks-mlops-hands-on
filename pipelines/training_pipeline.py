@@ -68,6 +68,16 @@ with mlflow.start_run(
     )
 
     mlflow.log_param(
+        "repository",
+        "databricks-mlops-hands-on"
+    )
+
+    mlflow.log_param(
+        "branch",
+        "main"
+    )
+
+    mlflow.log_param(
         "algorithm",
         "RandomForestClassifier"
     )
