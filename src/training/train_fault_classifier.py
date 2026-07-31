@@ -2,9 +2,7 @@ from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.classification import RandomForestClassifier
 
 
-def prepare_training_data(df):
-
-    feature_columns = [
+feature_columns = [
         "xmeas_1",
         "xmeas_2",
         "xmeas_3",
@@ -13,6 +11,9 @@ def prepare_training_data(df):
         "xmeas_3_delta1"
     ]
 
+
+def prepare_training_data(df):
+
     assembler = VectorAssembler(
         inputCols=feature_columns,
         outputCol="features",
@@ -20,11 +21,6 @@ def prepare_training_data(df):
     )
 
     transformed_df = assembler.transform(df)
-
-    transformed_df = transformed_df.select(
-        "faultNumber",
-        "features"
-    )
 
     transformed_df = transformed_df.na.drop()
 
