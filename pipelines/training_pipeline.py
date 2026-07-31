@@ -28,9 +28,14 @@ prepared_df = prepare_training_data(
 )
 
 with mlflow.start_run(
-    run_name="rf_baseline_fault_classifier"
+    run_name="rf_challenger_candidate"
 ):
 
+    mlflow.log_param(
+        "model_role",
+        "challenger_candidate"
+    )
+    
     mlflow.log_param(
         "source_table",
         SOURCE_TABLE
