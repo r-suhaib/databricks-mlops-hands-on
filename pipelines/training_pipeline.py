@@ -33,17 +33,13 @@ from src.evaluation.champion_comparision import (
     compare_to_champion
 )
 
-# --------------------------------------------------
 # MLflow Experiment
-# --------------------------------------------------
 
 mlflow.set_experiment(
     "/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/pipelines/training_pipeline.py"
 )
 
-# --------------------------------------------------
 # Load Configuration
-# --------------------------------------------------
 
 config = load_config(
     "../conf/training_config.yml"
@@ -63,9 +59,7 @@ MLFLOW_TMP_DIR = (
     config["mlflow_volume"]
 )
 
-# --------------------------------------------------
 # Read Source Dataset
-# --------------------------------------------------
 
 source_df = spark.table(
     SOURCE_TABLE
