@@ -10,10 +10,13 @@ def create_temporal_features(df: DataFrame) -> DataFrame:
 
     window_spec = (
         Window
-        .partitionBy("simulationRun")
+        .partitionBy(
+            "faultNumber",
+            "simulationRun"
+        )
         .orderBy("sample")
     )
-
+    
     sensors = [
         "xmeas_1",
         "xmeas_2",

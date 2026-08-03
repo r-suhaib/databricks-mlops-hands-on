@@ -1,7 +1,10 @@
 import mlflow
 import mlflow.spark
-
 from mlflow.models.signature import infer_signature
+
+mlflow.set_experiment(
+    "/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/pipelines/training_pipeline.py"
+)
 
 from src.training.train_fault_classifier import (
     prepare_training_data,
