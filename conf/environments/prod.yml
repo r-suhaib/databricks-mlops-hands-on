@@ -1,0 +1,7 @@
+catalog: tep_anomaly
+
+environment: prod
+
+schema: served
+
+model_suffix: prod

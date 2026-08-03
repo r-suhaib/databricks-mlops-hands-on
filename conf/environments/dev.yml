@@ -1,0 +1,7 @@
+catalog: tep_anomaly
+
+environment: dev
+
+schema: served
+
+model_suffix: dev

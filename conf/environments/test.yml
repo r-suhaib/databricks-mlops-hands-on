@@ -1,0 +1,7 @@
+catalog: tep_anomaly
+
+environment: test
+
+schema: served
+
+model_suffix: test
