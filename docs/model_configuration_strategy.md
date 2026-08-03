@@ -1,13 +1,17 @@
-## Current
+## Current State
 
-Values are hardcoded
-inside training_pipeline.py
+Values hardcoded in code.
 
-SOURCE_TABLE
+## Future State
 
-MODEL_NAME
+Values provided by configuration.
 
-CATALOG
+## Benefits
 
-## Future: Configuration-driven
-conf/
+Reusable workflows
+
+Reusable pipelines
+
+Scalable model estate management
+
+Reduced maintenance effort

@@ -1,0 +1,16 @@
+catalog: tep_anomaly
+
+served_schema: served
+
+source_table: training_base
+
+model_name: tep_fault_classifier
+
+registry_model:
+  tep_anomaly.served.tep_fault_classifier
+
+mlflow_volume:
+  /Volumes/tep_anomaly/served/mlflow_artifacts
+
+algorithm:
+  RandomForestClassifier
