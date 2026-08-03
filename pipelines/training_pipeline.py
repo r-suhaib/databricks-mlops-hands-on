@@ -1,14 +1,15 @@
 import mlflow
 import mlflow.spark
+
 from mlflow.models.signature import infer_signature
 
-mlflow.set_experiment(
-    "/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/pipelines/training_pipeline.py"
+from src.utils.config_loader import (
+    load_config
 )
 
 from src.training.train_fault_classifier import (
     prepare_training_data,
-    train_model, 
+    train_model,
     feature_columns
 )
 
@@ -32,22 +33,47 @@ from src.evaluation.champion_comparision import (
     compare_to_champion
 )
 
+# --------------------------------------------------
+# MLflow Experiment
+# --------------------------------------------------
+
+mlflow.set_experiment(
+    "/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/pipelines/training_pipeline.py"
+)
+
+# --------------------------------------------------
+# Load Configuration
+# --------------------------------------------------
+
+config = load_config(
+    "../conf/training_config.yml"
+)
+
 SOURCE_TABLE = (
-    "tep_anomaly.served.training_base"
+    f"{config['catalog']}."
+    f"{config['schema']}."
+    f"{config['source_table']}"
+)
+
+MODEL_NAME = (
+    config["full_model_name"]
 )
 
 MLFLOW_TMP_DIR = (
-    "/Volumes/tep_anomaly/served/mlflow_artifacts"
-    )
+    config["mlflow_volume"]
+)
+
+# --------------------------------------------------
+# Read Source Dataset
+# --------------------------------------------------
 
 source_df = spark.table(
-        SOURCE_TABLE
-    )
+    SOURCE_TABLE
+)
 
 validate_training_input(
     source_df
 )
-
 
 delta_version = (
     get_latest_delta_version(
@@ -62,15 +88,19 @@ prepared_df = prepare_training_data(
     source_df
 )
 
+# MLflow Run
+
 with mlflow.start_run(
     run_name="rf_challenger_candidate"
 ):
+
+    # Metadata
 
     mlflow.log_param(
         "model_role",
         "challenger_candidate"
     )
-    
+
     mlflow.log_param(
         "source_table",
         SOURCE_TABLE
@@ -83,12 +113,12 @@ with mlflow.start_run(
 
     mlflow.log_param(
         "catalog",
-        "tep_anomaly"
+        config["catalog"]
     )
 
     mlflow.log_param(
         "source_schema",
-        "served"
+        config["schema"]
     )
 
     mlflow.log_param(
@@ -103,7 +133,7 @@ with mlflow.start_run(
 
     mlflow.log_param(
         "algorithm",
-        "RandomForestClassifier"
+        config["algorithm"]
     )
 
     mlflow.log_param(
@@ -126,6 +156,8 @@ with mlflow.start_run(
         row_count
     )
 
+    # Train
+
     model = train_model(
         prepared_df
     )
@@ -135,6 +167,8 @@ with mlflow.start_run(
             prepared_df
         )
     )
+
+    # Evaluate
 
     evaluation_metrics = (
         evaluate_model(
@@ -160,19 +194,19 @@ with mlflow.start_run(
         "accuracy",
         evaluation_metrics["accuracy"]
     )
-    
+
     mlflow.log_metric(
         "f1",
         evaluation_metrics["f1"]
     )
-    
+
     mlflow.log_metric(
         "weighted_precision",
         evaluation_metrics[
             "weighted_precision"
         ]
     )
-    
+
     mlflow.log_metric(
         "weighted_recall",
         evaluation_metrics[
@@ -206,6 +240,8 @@ with mlflow.start_run(
         ]
     )
 
+    # Model Signature
+
     signature_input = (
         source_df
         .select(*feature_columns)
@@ -214,7 +250,7 @@ with mlflow.start_run(
     )
 
     prediction_df = (
-        model.transform(prepared_df)
+        predictions_df
         .select("prediction")
         .limit(10)
         .toPandas()
@@ -225,6 +261,8 @@ with mlflow.start_run(
         prediction_df
     )
 
+    # Log Model
+
     mlflow.spark.log_model(
         spark_model=model,
         artifact_path="model",
@@ -232,6 +270,8 @@ with mlflow.start_run(
         signature=signature,
         input_example=signature_input
     )
+
+    # Register Model
 
     run_id = mlflow.active_run().info.run_id
 
@@ -241,7 +281,7 @@ with mlflow.start_run(
 
     registration = mlflow.register_model(
         model_uri=model_uri,
-        name="tep_anomaly.served.tep_fault_classifier"
+        name=MODEL_NAME
     )
 
     print(
@@ -252,4 +292,3 @@ with mlflow.start_run(
     print(
         "Model successfully logged to MLflow."
     )
-
