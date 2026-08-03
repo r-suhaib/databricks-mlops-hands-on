@@ -9,8 +9,20 @@ from src.training.train_fault_classifier import (
     feature_columns
 )
 
+from src.training.training_validations import (
+    validate_training_input
+)
+
 from src.utils.delta_utils import (
     get_latest_delta_version
+)
+
+from src.training.evaluation import (
+    evaluate_training_run
+)
+
+from src.evaluation.model_evaluation import (
+    evaluate_model
 )
 
 SOURCE_TABLE = (
@@ -25,6 +37,11 @@ source_df = spark.table(
         SOURCE_TABLE
     )
 
+validate_training_input(
+    source_df
+)
+
+
 delta_version = (
     get_latest_delta_version(
         spark,
@@ -37,6 +54,7 @@ row_count = source_df.count()
 prepared_df = prepare_training_data(
     source_df
 )
+
 
 with mlflow.start_run(
     run_name="rf_challenger_candidate"
@@ -106,6 +124,42 @@ with mlflow.start_run(
         prepared_df
     )
 
+    predictions_df = (
+        model.transform(
+            prepared_df
+        )
+    )
+
+    evaluation_metrics = (
+        evaluate_model(
+            predictions_df
+        )
+    )
+
+    mlflow.log_metric(
+        "accuracy",
+        evaluation_metrics["accuracy"]
+    )
+    
+    mlflow.log_metric(
+        "f1",
+        evaluation_metrics["f1"]
+    )
+    
+    mlflow.log_metric(
+        "weighted_precision",
+        evaluation_metrics[
+            "weighted_precision"
+        ]
+    )
+    
+    mlflow.log_metric(
+        "weighted_recall",
+        evaluation_metrics[
+            "weighted_recall"
+        ]
+    )
+    
     signature_input = (
         source_df
         .select(*feature_columns)
