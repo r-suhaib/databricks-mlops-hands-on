@@ -17,10 +17,6 @@ from src.utils.delta_utils import (
     get_latest_delta_version
 )
 
-from src.training.evaluation import (
-    evaluate_training_run
-)
-
 from src.evaluation.model_evaluation import (
     evaluate_model
 )
