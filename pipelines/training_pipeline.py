@@ -59,7 +59,6 @@ prepared_df = prepare_training_data(
     source_df
 )
 
-
 with mlflow.start_run(
     run_name="rf_challenger_candidate"
 ):
@@ -204,7 +203,6 @@ with mlflow.start_run(
         ]
     )
 
-    
     signature_input = (
         source_df
         .select(*feature_columns)

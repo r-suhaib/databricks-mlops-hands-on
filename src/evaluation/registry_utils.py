@@ -23,6 +23,8 @@ def get_run_metric(
 
     run = client.get_run(run_id)
 
-    return run.data.metrics.get(
+    metric =  run.data.metrics.get(
         metric_name
     )
+
+    return metric
