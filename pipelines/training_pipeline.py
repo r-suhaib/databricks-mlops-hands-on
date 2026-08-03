@@ -25,6 +25,10 @@ from src.evaluation.promotion_gate import (
     passes_promotion_gate
 )
 
+from src.evaluation.champion_comparision import (
+    compare_to_champion
+)
+
 SOURCE_TABLE = (
     "tep_anomaly.served.training_base"
 )
@@ -136,6 +140,14 @@ with mlflow.start_run(
         )
     )
 
+    champion_comparison = (
+        compare_to_champion(
+            challenger_accuracy=
+                evaluation_metrics["accuracy"],
+            champion_accuracy=0.50
+        )
+    )
+
     promotion_passed = (
         passes_promotion_gate(
             evaluation_metrics
@@ -170,6 +182,28 @@ with mlflow.start_run(
         "promotion_passed",
         promotion_passed
     )
+
+    mlflow.log_metric(
+        "champion_accuracy",
+        champion_comparison[
+            "champion_accuracy"
+        ]
+    )
+
+    mlflow.log_metric(
+        "challenger_accuracy",
+        champion_comparison[
+            "challenger_accuracy"
+        ]
+    )
+
+    mlflow.log_param(
+        "challenger_better",
+        champion_comparison[
+            "challenger_better"
+        ]
+    )
+
     
     signature_input = (
         source_df
