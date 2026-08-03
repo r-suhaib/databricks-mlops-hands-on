@@ -21,6 +21,10 @@ from src.evaluation.model_evaluation import (
     evaluate_model
 )
 
+from src.evaluation.promotion_gate import (
+    passes_promotion_gate
+)
+
 SOURCE_TABLE = (
     "tep_anomaly.served.training_base"
 )
@@ -129,6 +133,12 @@ with mlflow.start_run(
     evaluation_metrics = (
         evaluate_model(
             predictions_df
+        )
+    )
+
+    promotion_passed = (
+        passes_promotion_gate(
+            evaluation_metrics
         )
     )
 
