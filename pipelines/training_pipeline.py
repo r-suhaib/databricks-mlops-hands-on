@@ -165,6 +165,11 @@ with mlflow.start_run(
             "weighted_recall"
         ]
     )
+
+    mlflow.log_param(
+        "promotion_passed",
+        promotion_passed
+    )
     
     signature_input = (
         source_df
