@@ -46,6 +46,10 @@ from src.evaluation.registry_utils import (
     get_run_metric
 )
 
+from src.evaluation.promotion_recommendation import (
+    get_promotion_recommendation
+)
+
 # runtime parameters
 
 runtime_parameters = (
@@ -235,6 +239,14 @@ with mlflow.start_run(
         )
     )
 
+    promotion_recommendation = (
+        get_promotion_recommendation(
+            champion_comparison[
+                "challenger_better"
+            ]
+        )
+    )
+
     promotion_passed = (
         passes_promotion_gate(
             evaluation_metrics
@@ -263,6 +275,11 @@ with mlflow.start_run(
         evaluation_metrics[
             "weighted_recall"
         ]
+    )
+
+    mlflow.log_param(
+        "promotion_recommendation",
+        promotion_recommendation
     )
 
     mlflow.log_param(
