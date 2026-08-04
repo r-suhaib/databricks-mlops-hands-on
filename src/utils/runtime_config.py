@@ -1,7 +1,18 @@
+import os
+
+
 def get_runtime_parameters():
 
     return {
-        "environment": "dev",
+        "environment":
+            os.getenv(
+                "ENVIRONMENT",
+                "dev"
+            ),
+
         "model_config":
-            "tep_fault_classifier"
+            os.getenv(
+                "MODEL_CONFIG",
+                "tep_fault_classifier"
+            )
     }
