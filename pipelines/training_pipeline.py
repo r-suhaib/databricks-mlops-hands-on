@@ -33,6 +33,16 @@ from src.evaluation.champion_comparision import (
     compare_to_champion
 )
 
+from src.utils.environment_config import (
+    load_environment
+)
+
+# environment type
+
+environment = load_environment(
+    "dev"
+)
+
 # MLflow Experiment
 
 mlflow.set_experiment(
@@ -89,6 +99,11 @@ with mlflow.start_run(
 ):
 
     # Metadata
+
+    mlflow.log_param(
+        "environment",
+        environment["environment"]
+    )
 
     mlflow.log_param(
         "model_role",
