@@ -41,6 +41,11 @@ from src.utils.runtime_config import (
     get_runtime_parameters
 )
 
+from src.evaluation.registry_utils import (
+    get_champion_run_id,
+    get_run_metric
+)
+
 # runtime parameters
 
 runtime_parameters = (
@@ -208,11 +213,25 @@ with mlflow.start_run(
         )
     )
 
+    champion_run_id = (
+        get_champion_run_id(
+            MODEL_NAME
+        )
+    )
+
+    champion_accuracy = (
+        get_run_metric(
+            champion_run_id,
+            "accuracy"
+        )
+    )
+
     champion_comparison = (
         compare_to_champion(
             challenger_accuracy=
                 evaluation_metrics["accuracy"],
-            champion_accuracy=0.50
+            champion_accuracy=
+                champion_accuracy
         )
     )
 
@@ -249,6 +268,16 @@ with mlflow.start_run(
     mlflow.log_param(
         "promotion_passed",
         promotion_passed
+    )
+
+    mlflow.log_param(
+        "champion_run_id",
+        champion_run_id
+    )
+
+    mlflow.log_metric(
+        "retrieved_champion_accuracy",
+        champion_accuracy
     )
 
     mlflow.log_metric(
