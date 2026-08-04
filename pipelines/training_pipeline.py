@@ -119,6 +119,16 @@ with mlflow.start_run(
     )
 
     mlflow.log_param(
+        "model_suffix",
+        environment["model_suffix"]
+    )
+
+    mlflow.log_param(
+        "runtime_model_config",
+        runtime_parameters["model_config"]
+    )
+
+    mlflow.log_param(
         "model_role",
         "challenger_candidate"
     )
