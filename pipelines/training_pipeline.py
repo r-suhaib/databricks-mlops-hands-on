@@ -52,7 +52,7 @@ mlflow.set_experiment(
 # Load Configuration
 
 config = load_config(
-    "../conf/training_config.yml"
+    "../conf/models/tep_fault_classifier.yml"
 )
 
 SOURCE_TABLE = (
