@@ -50,6 +50,10 @@ from src.evaluation.promotion_recommendation import (
     get_promotion_recommendation
 )
 
+from src.evaluation.promotion_approval import (
+    is_approved_for_promotion
+)
+
 # runtime parameters
 
 runtime_parameters = (
@@ -247,6 +251,12 @@ with mlflow.start_run(
         )
     )
 
+    approval_status = (
+        is_approved_for_promotion(
+            promotion_recommendation
+        )
+    )
+
     promotion_passed = (
         passes_promotion_gate(
             evaluation_metrics
@@ -316,6 +326,11 @@ with mlflow.start_run(
         champion_comparison[
             "challenger_better"
         ]
+    )
+
+    mlflow.log_param(
+        "promotion_approved",
+        approval_status
     )
 
     # Model Signature
