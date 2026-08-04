@@ -37,10 +37,22 @@ from src.utils.environment_config import (
     load_environment
 )
 
+from src.utils.runtime_config import (
+    get_runtime_parameters
+)
+
+# runtime parameters
+
+runtime_parameters = (
+    get_runtime_parameters()
+)
+
 # environment type
 
 environment = load_environment(
-    "dev"
+    runtime_parameters[
+        "environment"
+    ]
 )
 
 # MLflow Experiment
@@ -52,7 +64,8 @@ mlflow.set_experiment(
 # Load Configuration
 
 config = load_config(
-    "../conf/models/tep_fault_classifier.yml"
+    f"../conf/models/"
+    f"{runtime_parameters['model_config']}.yml"
 )
 
 SOURCE_TABLE = (
