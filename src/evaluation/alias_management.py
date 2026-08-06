@@ -14,3 +14,18 @@ def assign_alias(
         alias=alias,
         version=str(version)
     )
+
+
+def get_model_version(
+    model_name,
+    alias
+):
+
+    client = MlflowClient()
+
+    model = client.get_model_version_by_alias(
+        model_name,
+        alias
+    )
+
+    return model.version
