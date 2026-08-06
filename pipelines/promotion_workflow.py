@@ -8,7 +8,7 @@ MODEL_NAME = (
 
 CANDIDATE_VERSION = 12
 
-APPROVED = False
+APPROVED = True
 
 result = execute_promotion(
     model_name=MODEL_NAME,
