@@ -1,0 +1,15 @@
+Train
+ ↓
+Evaluate
+ ↓
+Compare
+ ↓
+Recommend
+ ↓
+Approve
+ ↓
+Promote
+ ↓
+Monitor
+ ↓
+Rollback
