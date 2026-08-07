@@ -41,3 +41,32 @@ jobs:
         run: |
           test -d conf/environments
           echo "Environment configs found"
+      
+      - name: Validate Documentation
+        run: |
+          test -d docs
+          echo "Documentation found"
+      
+      - name: Validate Source Directory
+        run: |
+          test -d src
+          echo "Source directory found" 
+
+      - name: Validate Pipelines
+        run: |
+          test -d pipelines
+          echo "Pipelines found"
+
+      - name: Validate Monitoring Components
+        run: |
+          test -d src/monitoring
+          echo "Monitoring components found"
+      
+      - name: Validate Evaluation Components
+        run: |
+          test -d src/evaluation
+          echo "Evaluation components found"
+        
+
+        
+      
