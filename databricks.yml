@@ -1,0 +1,22 @@
+bundle:
+  name: databricks-mlops-hands-on
+
+include:
+  - resources/*.yml
+  - resources/jobs/*.yml
+
+targets:
+
+  dev:
+    default: true
+
+    workspace:
+      host: https://your-workspace-url
+
+  test:
+    workspace:
+      host: https://your-workspace-url
+
+  prod:
+    workspace:
+      host: https://your-workspace-url

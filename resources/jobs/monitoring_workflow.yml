@@ -1,0 +1,22 @@
+resources:
+
+  jobs:
+
+    tep_monitoring_workflow:
+
+      name: tep_monitoring_workflow
+
+      tasks:
+
+        - task_key: feature_monitoring
+
+          notebook_task:
+            notebook_path: /Workspace/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/notebooks/08_feature_monitoring_persistence
+
+        - task_key: drift_detection
+
+          depends_on:
+            - task_key: feature_monitoring
+
+          notebook_task:
+            notebook_path: /Workspace/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/notebooks/10_drift_alert_demo

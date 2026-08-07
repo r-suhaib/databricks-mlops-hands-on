@@ -1,0 +1,30 @@
+resources:
+
+  jobs:
+
+    tep_training_workflow:
+
+      name: tep_training_workflow
+
+      tasks:
+
+        - task_key: calculated_refresh
+
+          notebook_task:
+            notebook_path: /Workspace/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/notebooks/03_calculated_temporal_features
+
+        - task_key: served_refresh
+
+          depends_on:
+            - task_key: calculated_refresh
+
+          notebook_task:
+            notebook_path: /Workspace/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/notebooks/04_publish_training_base
+
+        - task_key: training
+
+          depends_on:
+            - task_key: served_refresh
+
+          spark_python_task:
+            python_file: /Workspace/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/pipelines/training_pipeline.py
