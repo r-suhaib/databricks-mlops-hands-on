@@ -1,0 +1,26 @@
+name: Bundle Deploy Reference
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        run: |
+          echo "Install Databricks CLI"
+
+      - name: Bundle Validate
+        run: |
+          echo "databricks bundle validate"
+
+      - name: Bundle Deploy DEV
+        run: |
+          echo "databricks bundle deploy --target dev"
