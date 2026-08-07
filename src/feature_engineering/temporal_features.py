@@ -8,15 +8,14 @@ from src.feature_engineering.validations import (
 
 def create_temporal_features(df: DataFrame) -> DataFrame:
 
+    validate_temporal_feature_inputs(df)
+
     window_spec = (
         Window
-        .partitionBy(
-            "faultNumber",
-            "simulationRun"
-        )
+        .partitionBy("simulationRun")
         .orderBy("sample")
     )
-    
+
     sensors = [
         "xmeas_1",
         "xmeas_2",

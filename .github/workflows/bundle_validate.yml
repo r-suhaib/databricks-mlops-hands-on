@@ -1,0 +1,43 @@
+name: Bundle Validation
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+
+  validate:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Bundle Structure
+        run: |
+          test -f databricks.yml
+          echo "Bundle file found"
+
+      - name: Validate Resource Directory
+        run: |
+          test -d resources/jobs
+          echo "Resource directory found"
+
+      - name: Validate Model Configurations
+        run: |
+          test -d conf/models
+          echo "Model configs found"
+
+      - name: Validate Environment Configurations
+        run: |
+          test -d conf/environments
+          echo "Environment configs found"

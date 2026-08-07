@@ -1,0 +1,7 @@
+resources:
+
+  jobs:
+
+    tep_promotion_workflow:
+
+      name: tep_promotion_workflow
