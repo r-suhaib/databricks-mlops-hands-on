@@ -1,0 +1,10 @@
+model_name: pump_failure_predictor
+
+source_table: tep_anomaly.served.training_base
+
+registry_model:
+  tep_anomaly.served.pump_failure_predictor
+
+schedule: Daily
+
+owner: Operations
