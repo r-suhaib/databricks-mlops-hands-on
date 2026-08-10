@@ -1,0 +1,7 @@
+approval_required: true
+
+monitoring_level: enhanced
+
+promotion_strategy: manual
+
+rollback_enabled: true
