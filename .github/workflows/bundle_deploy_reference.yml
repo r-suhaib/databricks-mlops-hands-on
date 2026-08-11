@@ -15,12 +15,16 @@ jobs:
 
       - name: Install Databricks CLI
         run: |
-          echo "Install Databricks CLI"
+          echo "pip install databricks-cli"
+
+      - name: Authenticate
+        run: |
+          echo "Use GitHub Secrets"
 
       - name: Bundle Validate
         run: |
           echo "databricks bundle validate"
 
-      - name: Bundle Deploy DEV
+      - name: Bundle Deploy
         run: |
           echo "databricks bundle deploy --target dev"
