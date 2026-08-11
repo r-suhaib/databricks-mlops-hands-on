@@ -28,3 +28,6 @@ resources:
 
           spark_python_task:
             python_file: /Workspace/Users/rsuhaib678@gmail.com/databricks-mlops-hands-on/pipelines/training_pipeline.py
+
+          environment_variables:
+            ENVIRONMENT: ${var.environment}
