@@ -1,0 +1,27 @@
+name: Deploy PROD
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Bundle Exists
+        run: |
+          test -f databricks.yml
+
+      - name: Simulated Bundle Validation
+        run: |
+          echo "databricks bundle validate"
+
+      - name: Simulated PROD Deployment
+        run: |
+          echo "databricks bundle deploy --target prod"
