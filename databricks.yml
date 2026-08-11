@@ -1,6 +1,14 @@
 bundle:
   name: databricks-mlops-hands-on
 
+variables:
+
+  catalog:
+    default: tep_anomaly
+
+  schema:
+    default: served
+
 include:
   - resources/*.yml
   - resources/jobs/*.yml
@@ -10,13 +18,15 @@ targets:
   dev:
     default: true
 
-    workspace:
-      host: https://your-workspace-url
+    variables:
+      environment: dev
 
   test:
-    workspace:
-      host: https://your-workspace-url
+
+    variables:
+      environment: test
 
   prod:
-    workspace:
-      host: https://your-workspace-url
+
+    variables:
+      environment: prod
